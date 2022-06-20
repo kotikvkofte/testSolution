@@ -197,18 +197,13 @@ namespace PreFinal
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            using (var updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/kotikvkofte/testSolution"))
             {
-                using (var updateManager = await UpdateManager.GitHubUpdateManager("github"))
-                {
-                    var release = await updateManager.UpdateApp();
-                }
+                MessageBox.Show($"Current version: {updateManager.CurrentlyInstalledVersion()}");
+                var release = await updateManager.UpdateApp();
             }
-            catch (Exception)
-            {
 
-                throw;
-            }
+
             //using (var updateManager = new UpdateManager(@"C:\SquirrelReleases"))
             //{
             //    MessageBox.Show($"Current version: {updateManager.CurrentlyInstalledVersion()}");
