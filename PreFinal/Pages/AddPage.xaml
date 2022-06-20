@@ -1,0 +1,54 @@
+﻿<Page x:Class="PreFinal.Pages.AddPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PreFinal.Pages"
+      xmlns:components="clr-namespace:PreFinal.Components"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddPage">
+
+    <Grid>
+        <Viewbox>
+            <TabControl Width="667" Height="370">
+                <TabItem Header="Инвентарь">
+                    <components:AddInventory/>
+                </TabItem>
+                <TabItem Header="Места">
+                    <Viewbox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <components:AddLocation Grid.Column="0"/>
+                            <components:AddWorkplace Grid.Column="1"/>
+                        </Grid>
+                    </Viewbox>
+                </TabItem>
+                <TabItem Header="Пользователь">
+                    <components:AddUser/>
+                </TabItem>
+                <TabItem Header="Прочее">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox Grid.Column="0">
+                            <components:AddType />
+                        </Viewbox>
+                        <Viewbox Grid.Column="1">
+                            <components:AddManufacture />
+                        </Viewbox>
+                        <Viewbox Grid.Column="2">
+                            <components:AddProvider />
+                        </Viewbox>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Viewbox>
+    </Grid>
+</Page>

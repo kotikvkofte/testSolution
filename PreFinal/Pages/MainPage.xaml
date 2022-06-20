@@ -1,0 +1,382 @@
+﻿<Page x:Class="PreFinal.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PreFinal.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainPage"
+      FocusManager.FocusedElement="{Binding ElementName=BarcodeTxb}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="173*" />
+            <ColumnDefinition Width="223*" />
+        </Grid.ColumnDefinitions>
+        <Menu Margin="2"
+              VerticalAlignment="Top"
+              Grid.ColumnSpan="2"
+              Background="#FF004C97"
+              Foreground="White">
+            <MenuItem Header="Добавить"
+                      FontSize="12pt"
+                      Name="AdminBtn"
+                      Visibility="Collapsed">
+                <MenuItem Header="Месторасположение"
+                          Name="AddLocationBtn"
+                          Foreground="Black"
+                          Click="AddLocationBtn_Click"
+                          FontSize="10pt" />
+                <MenuItem Header="Рабочее место"
+                          Name="AddWorkplaceBtn"
+                          Foreground="Black"
+                          Click="AddWorkplaceBtn_Click"
+                          FontSize="10pt" />
+                <MenuItem Header="Регистрация пользователей"
+                          Name="RegBtn"
+                          Foreground="Black"
+                          Click="RegBtn_Click"
+                          FontSize="10pt" />
+            </MenuItem>
+            <MenuItem Header="Открыть список"
+                      FontSize="12pt">
+                <MenuItem Header="Инвентарь"
+                          Foreground="Black"
+                          Click="OpenListBtn_Click"
+                          Name="OpenListBtn"
+                          FontSize="10pt" />
+                <MenuItem Header="Проблемный инвентарь"
+                          Foreground="Black"
+                          Click="OpenProvlemInvListBtn_Click"
+                          Name="OpenProvlemInvListBtn"
+                          FontSize="10pt" />
+            </MenuItem>
+            <MenuItem Header="Списать"
+                      Click="SpisatBtn_Click"
+                      Name="SpisatBtn"
+                      FontSize="12pt" />
+        </Menu>
+
+        <Viewbox Margin="0">
+
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        FocusManager.FocusedElement="{Binding ElementName=BarcodeTxb}">
+
+                <StackPanel Orientation="Vertical"
+                            Panel.ZIndex="1"
+                            FocusManager.FocusedElement="{Binding ElementName=BarcodeTxb}">
+                    <TextBlock TextAlignment="Center"
+                               FontSize="12pt"
+                               Margin="5">Инвентарный<LineBreak />номер
+                    </TextBlock>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="5,0,0,0">
+                        <TextBox Width="160"
+                                 Height="30"
+                                 MaxLength="30"
+                                 FontSize="14pt"
+                                 TextAlignment="Center"
+                                 Name="BarcodeTxb"
+                                 PreviewTextInput="BarcodeTxb_PreviewTextInput"
+                                 KeyDown="BarcodeTxb_KeyDown"
+                                 BorderBrush="Black"
+                                 BorderThickness="1"
+                                 Focusable="True"
+                                 TextChanged="BarcodeTxb_TextChanged"
+                                 GotFocus="BarcodeTxb_GotFocus"
+                                 FocusManager.IsFocusScope="True">
+                            <TextBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Добавить"
+                                              Name="AddInventory"
+                                              Click="AddInventory_Click" />
+                                </ContextMenu>
+                            </TextBox.ContextMenu>
+                        </TextBox>
+                        <Button Height="30"
+                                Width="70"
+                                Content="Добавить"
+                                FontSize="11pt"
+                                Margin="3,0,0,0"
+                                Name="AddInvBtn"
+                                Click="AddInventory_Click" />
+                    </StackPanel>
+
+                    <CheckBox Content="Сканер"
+                              x:Name="SelectChkb"
+                              IsChecked="True"
+                              HorizontalAlignment="Center"
+                              Checked="SelectChkb_Checked"
+                              Unchecked="SelectChkb_Unchecked" />
+                    <!--<Image Margin="0,10,0,10"
+                           Name="ScanCodeImg"
+                           Width="200"
+                           Height="70">
+                        <Image.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Добавить на печать" Click="MenuItem_Click"/>
+                            </ContextMenu>
+                        </Image.ContextMenu>
+                    </Image>-->
+                </StackPanel>
+
+                <Border Margin="30,5,30,5"
+                        CornerRadius="15"
+                        Background="#FF004C97">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Margin="0,5,0,5">
+
+                        <TextBlock Margin="4"
+                                   Width="135"
+                                   Height="20"
+                                   Text="Инвентаризация"
+                                   FontSize="12pt"
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center"
+                                   Foreground="White" />
+                        <Button Content=" Начать"
+                                FontSize="12pt"
+                                Width="110"
+                                Name="InventoryzationButton"
+                                Click="InventoryzationButton_Click"
+                                Margin="4,5,0,5"
+                                Background="White" />
+                        <Button Content=" Продолжить"
+                                FontSize="12pt"
+                                Width="110"
+                                Name="InventoryzationContinueButton"
+                                Click="InventoryzationContinueButton_Click"
+                                Margin="4,5,0,5"
+                                Background="White" />
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Visibility="Hidden"
+                                    Name="ChkbsInventoryPanel">
+                            <TextBlock Text="0"
+                                       Name="InventoryCurrentTxt"
+                                       Foreground="White" />
+                            <TextBlock Text=" из "
+                                       Foreground="White" />
+                            <TextBlock Text="0"
+                                       Name="InventoryTotalTxt"
+                                       Foreground="White" />
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </Viewbox>
+
+
+        <Viewbox Margin="15"
+                 Grid.Column="1">
+            <StackPanel VerticalAlignment="Center"
+                        Width="330">
+                <StackPanel x:Name="InputPanel"
+                            Panel.ZIndex="0">
+                    <TextBlock Text="Введите инвентарный номер"
+                               Margin="0,12,0,0"
+                               TextAlignment="Center"
+                               Name="InputMsg"
+                               FontSize="12pt" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Visibility="Hidden"
+                            Name="MainPanel"
+                            Panel.ZIndex="1"
+                            Width="330">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Название:"
+                                   TextAlignment="Center"
+                                   FontSize="12pt" />
+                        <TextBlock x:Name="NameTxt"
+                                   TextAlignment="Center"
+                                   FontSize="12pt"
+                                   TextWrapping="Wrap"
+                                   Margin="5" />
+                    </StackPanel>
+
+                    <StackPanel x:Name="ViewPanel">
+                        <StackPanel Orientation="Vertical"
+                                    Margin="5">
+                            <TextBlock Text="Месторасположение:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <TextBlock Name="LocationTxt"
+                                       Margin="0,10,0,10"
+                                       TextAlignment="Center"
+                                       FontSize="12pt">
+
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical"
+                                    Margin="5">
+                            <TextBlock Text="Рабочее место:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <TextBlock Name="WorkplaceTxt"
+                                       Margin="0,10,0,10"
+                                       TextAlignment="Center"
+                                       IsEnabled="False"
+                                       FontSize="12pt">
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    Margin="5">
+                            <TextBlock Text="Ответственное лицо:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <TextBlock Name="RespPersonTxt"
+                                       Margin="0,10,0,10"
+                                       TextAlignment="Center"
+                                       FontSize="12pt">
+                            </TextBlock>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <!---->
+
+                    <StackPanel x:Name="EditPanel"
+                                Visibility="Collapsed">
+
+                        <StackPanel Orientation="Vertical"
+                                    Margin="5">
+                            <TextBlock Text="Месторасположение:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <ComboBox Name="LocationCmb"
+                                      Margin="0,10,0,10"
+                                      SelectionChanged="LocationCmb_SelectionChanged"
+                                      FontSize="12pt">
+
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    Margin="5">
+                            <TextBlock Text="Рабочее место:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <ComboBox Name="WorkplaceCmb"
+                                      Margin="0,10,0,10"
+                                      SelectionChanged="WorkplaceCmb_SelectionChanged"
+                                      IsEnabled="False"
+                                      FontSize="12pt">
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    Margin="5">
+                            <TextBlock Text="Ответственное лицо:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <TextBlock Name="RespPerson"
+                                      Margin="0,10,0,10"
+                                      FontSize="12pt"
+                                       TextAlignment="Center">
+                            </TextBlock>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <!---->
+
+
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <StackPanel Orientation="Vertical"
+                                    Margin="15">
+                            <TextBlock Text="Количество:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <TextBlock x:Name="AmountTxt"
+                                       TextAlignment="Center"
+                                       FontSize="12pt"
+                                       Margin="5" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    Margin="15">
+                            <TextBlock Text="Цена:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <TextBlock x:Name="PriceTxt"
+                                       TextAlignment="Center"
+                                       FontSize="12pt"
+                                       Margin="5" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Name="ViewBtnsPanel">
+                        <Button Visibility="Visible"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,5"
+                                FontSize="12pt"
+                                Width="130"
+                                Name="EditBtn"
+                                Click="EditBtn_Click">
+                            <TextBlock Text=" Редактировать "
+                                       TextAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       FontSize="12pt"
+                                       Margin="5" />
+                        </Button>
+                        <Button Visibility="Visible"
+                                HorizontalAlignment="Center"
+                                Margin="15,0,0,5"
+                                FontSize="12pt"
+                                Width="130"
+                                Name="AddToSpisatBtn"
+                                Click="AddToSpisatBtn_Click">
+                            <TextBlock Text=" Списать "
+                                       TextAlignment="Center"
+                                       FontSize="12pt"
+                                       TextWrapping="Wrap"
+                                       Margin="5" />
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Visibility="Collapsed"
+                                Name="EditBtnsPanel">
+                        <Button Visibility="Visible"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,5"
+                                FontSize="12pt"
+                                Width="130"
+                                Name="CancelBtn"
+                                Click="CancelBtn_Click">
+                            <TextBlock Text=" Отменить "
+                                       TextAlignment="Center"
+                                       FontSize="12pt"
+                                       TextWrapping="Wrap"
+                                       Margin="5" />
+                        </Button>
+                        <Button Visibility="Visible"
+                                HorizontalAlignment="Center"
+                                Margin="15,0,0,5"
+                                FontSize="12pt"
+                                Width="130"
+                                Name="SaveBtn"
+                                Click="SaveBtn_Click">
+                            <TextBlock Text=" Сохранить "
+                                       TextAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       FontSize="12pt"
+                                       Margin="5" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</Page>

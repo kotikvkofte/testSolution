@@ -1,0 +1,117 @@
+﻿<Page x:Class="PreFinal.Pages.AutorisationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PreFinal.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Авторизация">
+
+    <Grid>
+        <Viewbox>
+
+            <Border Margin="10"
+                    Background="White"
+                    BorderBrush="Black"
+                    BorderThickness="2"
+                    CornerRadius="25">
+                <Grid Height="170"
+                          Width="220">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25*" />
+                        <RowDefinition Height="25*" />
+                        <RowDefinition Height="25*" />
+                        <RowDefinition Height="25*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Margin="5"
+                                   Grid.Row="0"
+                                   Width="180"
+                                   Height="20"
+                                   Text="Авторизация"
+                                   FontSize="14"
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center" />
+
+                    <TextBox Margin="5"
+                                 Grid.Row="1"
+                                 Name="TxbLogin"
+                                 Width="150"
+                                 Height="20"
+                                 FontSize="14"
+                                 TextChanged="TxbLogin_TextChanged"
+                                 VerticalContentAlignment="Center"
+                                 TabIndex="0">
+
+                    </TextBox>
+
+                    <TextBlock Margin="5"
+                                   Grid.Row="1"
+                                   Width="145"
+                                   Height="20"
+                                   Text="Логин"
+                                   FontSize="14"
+                                   IsHitTestVisible="False">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{ Binding Text, ElementName=TxbLogin}"
+                                                     Value="">
+                                        <Setter Property="Visibility"
+                                                    Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                    <PasswordBox Margin="5"
+                                     Grid.Row="2"
+                                     Name="TxbPassword"
+                                     Width="150"
+                                     Height="20"
+                                     FontSize="14"
+                                     PasswordChanged="TxbPassword_PasswordChanged"
+                                     VerticalContentAlignment="Center"
+                                     TabIndex="1" />
+
+                    <TextBlock Name="TextPass"
+                                   Margin="5"
+                                   Grid.Row="2"
+                                   Width="145"
+                                   Height="20"
+                                   Text="Пароль"
+                                   FontSize="14"
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center" />
+
+
+
+                    <Button Grid.Row="3"
+                                Click="BtnLogin_Click"
+                                IsEnabled="False"
+                                Name="BtnLogin"
+                                FontSize="14"
+                                Content="Войти"
+                                Width="80"
+                                Height="25">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius"
+                                            Value="14" />
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                </Grid>
+            </Border>
+
+
+        </Viewbox>
+    </Grid>
+</Page>

@@ -1,0 +1,107 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>inventory.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="MediaFiles\add-icon.png" />
+    <None Remove="MediaFiles\addInv.png" />
+    <None Remove="MediaFiles\addLocation.png" />
+    <None Remove="MediaFiles\addWorkplace.png" />
+    <None Remove="MediaFiles\barcode.png" />
+    <None Remove="MediaFiles\change-photo.png" />
+    <None Remove="MediaFiles\clearBox.png" />
+    <None Remove="MediaFiles\down-arrow.png" />
+    <None Remove="MediaFiles\excel.png" />
+    <None Remove="MediaFiles\file.docx" />
+    <None Remove="MediaFiles\galka.png" />
+    <None Remove="MediaFiles\garbage.png" />
+    <None Remove="MediaFiles\krest.png" />
+    <None Remove="MediaFiles\list-text.png" />
+    <None Remove="MediaFiles\list.png" />
+    <None Remove="MediaFiles\logout.png" />
+    <None Remove="MediaFiles\menu-button.png" />
+    <None Remove="MediaFiles\newexcel.png" />
+    <None Remove="MediaFiles\newword.png" />
+    <None Remove="MediaFiles\no-photos.png" />
+    <None Remove="MediaFiles\plus-symbol-button.png" />
+    <None Remove="MediaFiles\printer.png" />
+    <None Remove="MediaFiles\refresh.png" />
+    <None Remove="MediaFiles\up-arrow.png" />
+    <None Remove="MediaFiles\word-icon.png" />
+    <None Remove="MediaFiles\word.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>5</VersionMinor>
+      <VersionMajor>8</VersionMajor>
+      <Guid>00020905-0000-0000-c000-000000000046</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>7</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>00020813-0000-0000-c000-000000000046</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="NuGet.CommandLine" Version="5.11.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="squirrel.windows" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\APIModels\APIModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="MediaFiles\add-icon.png" />
+    <Resource Include="MediaFiles\addInv.png" />
+    <Resource Include="MediaFiles\addLocation.png" />
+    <Resource Include="MediaFiles\addWorkplace.png" />
+    <Resource Include="MediaFiles\barcode.png" />
+    <Resource Include="MediaFiles\change-photo.png" />
+    <Resource Include="MediaFiles\clearBox.png" />
+    <Resource Include="MediaFiles\down-arrow.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="MediaFiles\excel.png" />
+    <EmbeddedResource Include="MediaFiles\file.docx" />
+    <Resource Include="MediaFiles\galka.png" />
+    <Resource Include="MediaFiles\garbage.png" />
+    <Resource Include="MediaFiles\krest.png" />
+    <Resource Include="MediaFiles\list-text.png" />
+    <Resource Include="MediaFiles\list.png" />
+    <Resource Include="MediaFiles\logout.png" />
+    <Resource Include="MediaFiles\menu-button.png" />
+    <Resource Include="MediaFiles\newexcel.png" />
+    <Resource Include="MediaFiles\newword.png" />
+    <Resource Include="MediaFiles\no-photos.png" />
+    <Resource Include="MediaFiles\plus-symbol-button.png" />
+    <Resource Include="MediaFiles\printer.png" />
+    <Resource Include="MediaFiles\refresh.png" />
+    <Resource Include="MediaFiles\up-arrow.png" />
+    <Resource Include="MediaFiles\word-icon.png" />
+    <Resource Include="MediaFiles\word.png" />
+  </ItemGroup>
+
+</Project>

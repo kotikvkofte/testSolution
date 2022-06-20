@@ -1,0 +1,477 @@
+﻿<Page x:Class="PreFinal.Pages.ScanPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PreFinal.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ScanPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="133*"/>
+            <ColumnDefinition Width="267*"/>
+        </Grid.ColumnDefinitions>
+        <Viewbox>
+            <StackPanel Orientation="Vertical"
+                            Panel.ZIndex="1">
+                <TextBlock TextAlignment="Center"
+                               FontSize="12pt"
+                               Margin="5">Инвентарный<LineBreak />номер
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBox Width="250"
+                         HorizontalAlignment="Center"
+                                 Height="30"
+                                 MaxLength="30"
+                                 FontSize="14pt"
+                                 TextAlignment="Center"
+                                 Name="BarcodeTxb"
+                                 BorderBrush="Black"
+                                 BorderThickness="1"
+                                 Focusable="True"
+                                 TextChanged="BarcodeTxb_TextChanged"
+                             IsEnabled="False">
+                    </TextBox>
+                    <!--<Button Height="30"
+                                Width="70"
+                                Content="Добавить"
+                                FontSize="11pt"
+                                Margin="3,0,0,0"
+                                Name="AddInvBtn"
+                                Click="AddInventory_Click" />-->
+                </StackPanel>
+
+
+                <StackPanel 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="0,20,0,0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Название:"
+                                   TextAlignment="Center"
+                                   FontSize="12pt" />
+                        <TextBlock x:Name="NameTxt"
+                                   TextAlignment="Center"
+                                   FontSize="12pt"
+                                   TextWrapping="Wrap"
+                                   Margin="5"
+                                   Text="{Binding ScanedInv.Name}"/>
+                    </StackPanel>
+
+                    <StackPanel x:Name="ViewPanel">
+                        <StackPanel Orientation="Vertical"
+                                Margin="5">
+                            <TextBlock Text="Месторасположение:"
+                                   TextAlignment="Center"
+                                   FontSize="12pt" />
+                            <TextBlock Name="LocationTxt"
+                                   Margin="0,10,0,10"
+                                   TextAlignment="Center"
+                                   FontSize="12pt"
+                                       Text="{Binding ScanedInv.Locations.Location}">
+
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical"
+                                Margin="5">
+                            <TextBlock Text="Рабочее место:"
+                                   TextAlignment="Center"
+                                   FontSize="12pt" />
+                            <TextBlock Name="WorkplaceTxt"
+                                   Margin="0,10,0,10"
+                                   TextAlignment="Center"
+                                   IsEnabled="False"
+                                   FontSize="12pt"
+                                       Text="{Binding ScanedInv.Workplaces.Place}">
+                            </TextBlock>
+                        </StackPanel>
+
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <StackPanel Orientation="Vertical"
+                                    Margin="15">
+                            <TextBlock Text="Количество:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <TextBlock x:Name="AmountTxt"
+                                       TextAlignment="Center"
+                                       FontSize="12pt"
+                                       Margin="5"
+                                       Text="{Binding ScanedInv.Amount}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    Margin="15">
+                            <TextBlock Text="Цена:"
+                                       TextAlignment="Center"
+                                       FontSize="12pt" />
+                            <TextBlock x:Name="PriceTxt"
+                                       TextAlignment="Center"
+                                       FontSize="12pt"
+                                       Margin="5" 
+                                       Text="{Binding ScanedInv.Price}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button 
+                    Content="Добавить"
+                    Name="AddInventoryBtn"
+                    Click="AddInventoryBtn_Click"
+                        Margin="0,0,0,15"
+                        FontSize="20pt"
+                        Height="45"
+                        >
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsAdded}" Value="true">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+        </Viewbox>
+
+
+        <Viewbox Grid.Column="1" VerticalAlignment="Top">
+
+            <StackPanel>
+                <TabControl  FontSize="16pt">
+                    <TabItem Header="Отсканировано">
+                        <DataGrid
+                            MouseLeftButtonUp="dgCompletedJobsMouseUp"
+                            RowDetailsVisibilityMode="{Binding RowDetailsVisible}"
+                            Height="568"
+                            Width="810"
+                            x:Name="MainList"
+                            AutoGenerateColumns="False"
+                            SelectionMode="Single"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ScanList}"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Auto"
+                            HeadersVisibility="Column"
+                            FontSize="18pt"
+                            >
+                            <!--<DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <EventSetter Event="MouseDoubleClick" Handler="RowDoubleClick"/>
+                        </Style>
+                    </DataGrid.RowStyle>-->
+
+                            <DataGrid.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+
+
+                                        <Image Height="150" Width="150">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding Photo}"/>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+
+                                        <StackPanel
+                                    Grid.Column="1">
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Название: "/>
+                                                <TextBlock Width="150" TextWrapping="WrapWithOverflow" Text="{Binding Name}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Тип : "/>
+                                                <TextBlock Text="{Binding TypeOfInventory.Type}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Фирма: "/>
+                                                <TextBlock Text="{Binding Manufacturers.Name}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Инвентарный номер: "/>
+                                                <TextBlock MaxWidth="100" MinWidth="50" TextWrapping="WrapWithOverflow" Text="{Binding InventoryCode}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Поставщик: "/>
+                                                <TextBlock Text="{Binding Providers.Name}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <StackPanel
+                                    Grid.Column="2">
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Цена: "/>
+                                                <TextBlock MaxWidth="250" MinWidth="50" TextWrapping="WrapWithOverflow"  Text="{Binding Price}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Количество: "/>
+                                                <TextBlock MaxWidth="200" MinWidth="20" TextWrapping="WrapWithOverflow" Text="{Binding Amount}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Кабинет: "/>
+                                                <TextBlock Text="{Binding Locations.Location}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Рабочее место: "/>
+                                                <!--<TextBox Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Workplaces.Place}"/>-->
+                                                <TextBlock Name="WrkplceCmd" Text="{Binding Workplaces.Place}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Описание: "/>
+                                                <!--<TextBox Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Workplaces.Place}"/>-->
+                                                <TextBlock MaxWidth="200" MinWidth="150" TextWrapping="WrapWithOverflow" Text="{Binding Description}" />
+                                            </StackPanel>
+
+
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGrid.RowDetailsTemplate>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn 
+                    Header="Название" 
+                    Width="*"
+                    Binding="{Binding Name}"/>
+                                <DataGridTextColumn
+                    Header="Инв. номер" 
+                    Width="*"
+                    Binding="{Binding InventoryCode}"
+                    />
+                                <DataGridTextColumn
+                    Header="Тип" 
+                    Width="*"
+                    Binding="{Binding TypeOfInventory.Type}"/>
+                                <DataGridTextColumn 
+                    Header="Фирма" 
+                    Width="*"
+                    Binding="{Binding Manufacturers.Name}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </TabItem>
+                    <TabItem Header="Весь список">
+                        <DataGrid
+                            MouseLeftButtonUp="dgCompletedJobsMouseUp"
+                            RowDetailsVisibilityMode="{Binding RowDetailsVisible}"
+                            Height="568"
+                            Width="810"
+                            x:Name="AllList"
+                            AutoGenerateColumns="False"
+                            SelectionMode="Single"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding allList}"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Auto"
+                            HeadersVisibility="Column"
+                            FontSize="18pt"
+                            >
+                            <!--<DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <EventSetter Event="MouseDoubleClick" Handler="RowDoubleClick"/>
+                        </Style>
+                    </DataGrid.RowStyle>-->
+
+                            <DataGrid.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+
+
+                                        <Image Height="150" Width="150">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="{Binding Photo}"/>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+
+                                        <StackPanel
+                                    Grid.Column="1">
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Название: "/>
+                                                <TextBlock Width="150" TextWrapping="WrapWithOverflow" Text="{Binding Name}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Тип : "/>
+                                                <TextBlock Text="{Binding TypeOfInventory.Type}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Фирма: "/>
+                                                <TextBlock Text="{Binding Manufacturers.Name}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Инв. номер: "/>
+                                                <TextBlock MaxWidth="100" MinWidth="50" TextWrapping="Wrap" Text="{Binding InventoryCode}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Поставщик: "/>
+                                                <TextBlock Text="{Binding Providers.Name}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <StackPanel
+                                    Grid.Column="2">
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Цена: "/>
+                                                <TextBlock MaxWidth="250" MinWidth="50" TextWrapping="Wrap"  Text="{Binding Price}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Количество: "/>
+                                                <TextBlock MaxWidth="200" MinWidth="20" TextWrapping="Wrap" Text="{Binding Amount}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Кабинет: "/>
+                                                <TextBlock MaxWidth="200" MinWidth="20" TextWrapping="Wrap" Text="{Binding Locations.Location}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Рабочее место: "/>
+                                                <!--<TextBox Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Workplaces.Place}"/>-->
+                                                <TextBlock MaxWidth="200" MinWidth="20" TextWrapping="Wrap" Name="WrkplceCmd" Text="{Binding Workplaces.Place}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                                <TextBlock Text="Описание: "/>
+                                                <!--<TextBox Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Workplaces.Place}"/>-->
+                                                <TextBlock MaxWidth="200" MinWidth="150" TextWrapping="Wrap" Text="{Binding Description}" />
+                                            </StackPanel>
+
+
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGrid.RowDetailsTemplate>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="0.2*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image>
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="/MediaFiles/krest.png"/>
+                                                        <Setter Property="Height" Value="40"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsScanned}" Value="true">
+                                                                <Setter Property="Source" Value="/MediaFiles/galka.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn 
+                    Header="Название" 
+                    Width="*"
+                    Binding="{Binding Name}"/>
+                                <DataGridTextColumn
+                    Header="Инв. номер" 
+                    Width="*"
+                    Binding="{Binding InventoryCode}"
+                    />
+                                <DataGridTextColumn
+                    Header="Тип" 
+                    Width="*"
+                    Binding="{Binding TypeOfInventory.Type}"/>
+                                <DataGridTextColumn 
+                    Header="Фирма" 
+                    Width="*"
+                    Binding="{Binding Manufacturers.Name}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </TabItem>
+                </TabControl>
+
+                <StackPanel 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center" Height="113">
+                    <Button 
+                        Content="Назад"
+                        FontSize="30pt"
+                        Width="230"
+                        Height="70"
+                        Margin="0,0,40,0"
+                        Name="BackBtn"
+                        Click="BackBtn_Click"/>
+                    <Button 
+                        IsEnabled="False"
+                        Width="230"
+                        Content="Сохранить"
+                        FontSize="30pt"
+                        Height="70"
+                        Margin="40,0,0,0"
+                        Name="SaveBtn"
+                        Click="SaveBtn_Click"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Viewbox>
+
+    </Grid>
+</Page>

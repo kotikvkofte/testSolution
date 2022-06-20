@@ -1,0 +1,237 @@
+﻿<Page x:Class="PreFinal.Pages.PrintPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PreFinal.Pages"
+      xmlns:base="clr-namespace:PreFinal"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PrintPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="161*"/>
+        </Grid.ColumnDefinitions>
+
+        <Viewbox Margin="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <StackPanel Margin="0,10,0,15">
+                    <TextBlock TextAlignment="Center" FontSize="16pt" Text="Тип:"/>
+                    <ComboBox 
+                        Width="100"
+                        Style="{StaticResource filtredCmb}"
+                        ItemsSource="{Binding MainTypeOfInventoryList, IsAsync=True}"
+                        Name="TypeCmb"
+                        SelectedValuePath="Id"
+                        DisplayMemberPath="Type"
+                        SelectionChanged="TypeCmb_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Margin="0,0,0,15">
+                    <TextBlock TextAlignment="Center" FontSize="16pt" Text="Кабинет:"/>
+                    <ComboBox
+                        Width="100"
+                        Style="{StaticResource filtredCmb}"
+                        ItemsSource="{Binding MainLocationsList}"
+                        Name="LocationCmb"
+                        SelectedValuePath="Id"
+                        DisplayMemberPath="Location"
+                        SelectionChanged="LocationCmb_SelectionChanged"/>
+                </StackPanel>
+                <StackPanel Margin="0,0,0,15">
+                    <TextBlock TextAlignment="Center" FontSize="16pt" Text="Раб. место:"/>
+                    <ComboBox
+                        Width="100"
+                        Style="{StaticResource filtredCmb}"
+                        ItemsSource="{Binding MainWorkplacesList}"
+                        Name="WorkplaceCmb"
+                        SelectedValuePath="Id"
+                        DisplayMemberPath="Place"
+                        SelectionChanged="WorkplaceCmb_SelectionChanged"/>
+                </StackPanel>
+                <Button 
+                    x:Name="AddBtn"
+                    Click="AddBtn_Click"
+                    Margin="0,10,0,0" 
+                    Content="Добавить"
+                    FontSize="14pt">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoaded}" Value="false">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Viewbox>
+
+        <Viewbox Grid.Column="1" VerticalAlignment="Top">
+            <StackPanel >
+                <DataGrid
+                    MouseLeftButtonUp="dgCompletedJobsMouseUp"
+                    RowDetailsVisibilityMode="{Binding RowDetailsVisible}"
+                    Margin="0,0,6,0"
+                    x:Name="MainList"
+                    AutoGenerateColumns="False"
+                    SelectionMode="Single"
+                    IsReadOnly="True"
+                    ItemsSource="{x:Static base:PrintClass.PrintInventorysList}"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto"
+                    HeadersVisibility="Column"
+                    FontSize="16pt" Height="419" Width="690"
+                    >
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+
+
+                                <Image Height="150" Width="150">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Source" Value="{Binding Photo}"/>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+
+                                <StackPanel
+                                    Grid.Column="1">
+                                    <StackPanel
+                                        Orientation="Vertical"
+                                        Margin="2">
+                                        <TextBlock Text="Название: "/>
+                                        <TextBox HorizontalAlignment="Left" Width="150" TextWrapping="Wrap" Name="InvNameInList"  Text="{Binding Name}" Style="{StaticResource TxbForEditInDataGrid}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                        <TextBlock Text="Тип : "/>
+                                        <TextBox Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding TypeOfInventory.Type}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                        <TextBlock Text="Фирма: "/>
+                                        <TextBox Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Manufacturers.Name}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Orientation="Vertical"
+                                        Margin="2">
+                                        <TextBlock Text="Инвентарный номер: "/>
+                                        <TextBox HorizontalAlignment="Left" MaxWidth="120" MinWidth="50" TextWrapping="Wrap" Name="CodeInList" Style="{StaticResource TxbForEditInDataGrid}"  Text="{Binding InventoryCode}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Orientation="Vertical"
+                                        Margin="2">
+                                        <TextBlock Text="Поставщик: "/>
+                                        <TextBox HorizontalAlignment="Left" Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Providers.Name}" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel
+                                    Grid.Column="2">
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                        <TextBlock Text="Цена: "/>
+                                        <TextBox MaxWidth="250" MinWidth="50" TextWrapping="Wrap" Name="PriceTxb" Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Price}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Margin="2">
+                                        <TextBlock Text="Количество: "/>
+                                        <TextBox MaxWidth="200" MinWidth="20" TextWrapping="Wrap" Name="TxbAmount" Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Amount}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Orientation="Vertical"
+                                        Margin="2">
+                                        <TextBlock Text="Кабинет: "/>
+                                        <TextBox HorizontalAlignment="Left" Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Locations.Location}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Orientation="Vertical"
+                                        Margin="2">
+                                        <TextBlock Text="Рабочее место: "/>
+                                        <!--<TextBox Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Workplaces.Place}"/>-->
+                                        <TextBox HorizontalAlignment="Left" Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Workplaces.Place}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Orientation="Vertical"
+                                        Margin="2">
+                                        <TextBlock Text="Описание: "/>
+                                        <!--<TextBox Style="{StaticResource TxbForEditInDataGrid}" Text="{Binding Workplaces.Place}"/>-->
+                                        <TextBox HorizontalAlignment="Left" MaxWidth="200" MinWidth="150" TextWrapping="WrapWithOverflow" Name="DescriptionTxb" Text="{Binding Description}" Style="{StaticResource  TxbForEditInDataGrid}" />
+                                    </StackPanel>
+
+
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn 
+                    Header="Название" 
+                    Width="*"
+                    Binding="{Binding Name}"/>
+                        <DataGridTextColumn
+                    Header="Инв. номер" 
+                    Width="*"
+                    Binding="{Binding InventoryCode}"
+                    />
+                        <DataGridTextColumn
+                    Header="Тип" 
+                    Width="*"
+                    Binding="{Binding TypeOfInventory.Type}"/>
+                        <DataGridTextColumn 
+                    Header="Фирма" 
+                    Width="*"
+                    Binding="{Binding Manufacturers.Name}"/>
+                        <DataGridTemplateColumn Width="0.4*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Margin="3" Background="Transparent" Name="DeleteItemFromList" Click="DeleteItemFromList_Click">
+                                        <Image Height="35" Source="/MediaFiles/garbage.png"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <Button
+                        Margin="5"
+                        Content=" Открыть папку "
+                        FontSize="24pt"
+                        Name="OpenPtintFolder"
+                        Click="OpenPtintFolder_Click"/>
+                    <Button
+                        Margin="5"
+                        Content=" Печать "
+                        FontSize="24pt"
+                        Name="PrintBtn"
+                        Click="PrintBtn_Click"/>
+                </StackPanel>
+                
+            </StackPanel>
+        </Viewbox>
+
+    </Grid>
+</Page>
